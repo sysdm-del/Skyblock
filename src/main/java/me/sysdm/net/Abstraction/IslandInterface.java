@@ -6,7 +6,10 @@ import java.util.UUID;
 
 public interface IslandInterface {
 
-    UUID islandUUID();
+    UUID getIslandUUID();
 
-    Location islandLocation();
+    Location getIslandLocation();
+
+    IslandPlayer getIslandPlayer();
+
 }

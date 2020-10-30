@@ -8,13 +8,13 @@ import java.util.UUID;
 
 public class IslandCreator {
 
-    protected HashMap<UUID, UUID> islandList = new HashMap<>();
+    public HashMap<UUID, UUID> islandList = new HashMap<>();
 
-    protected HashMap<UUID, Island> islandUUIDandObjList = new HashMap<>();
+    public HashMap<UUID, Island> islandUUIDandObjList = new HashMap<>();
 
     public Island createIsland(UUID uuid) {
         Island island = new Island();
-        islandList.put(uuid, island.islandUUID());
+        islandList.put(uuid, island.getIslandUUID());
         return island;
     }
 
@@ -39,8 +39,8 @@ public class IslandCreator {
 
     }
 
-    public boolean hasIsland(Player player) {
-        return islandList.containsKey(player.getUniqueId());
+    public boolean hasIsland(IslandPlayer player) {
+        return islandList.containsKey(player.getUUID());
     }
 
     public Island getIslandByIslandUUID(UUID uuid) {
