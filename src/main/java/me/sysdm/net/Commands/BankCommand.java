@@ -2,6 +2,8 @@ package me.sysdm.net.Commands;
 
 import me.sysdm.net.Abstraction.IslandCreator;
 import me.sysdm.net.Economy.Bank;
+import me.sysdm.net.Exceptions.NotEnoughCoinsInAccountException;
+import me.sysdm.net.Exceptions.NotEnoughCoinsInBankException;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -39,6 +41,20 @@ public class BankCommand implements CommandExecutor {
             }else if(args.length == 2) {
                 if(args[0].equalsIgnoreCase("setcoinworth")) {
                     bank.setWorth(Integer.parseInt(args[1]));
+                }else if(args[0].equalsIgnoreCase("deposit")) {
+                    try {
+                        bank.deposit(ic.getIslandByPlayerUUID(player.getUniqueId()).getIslandPlayer(), Integer.parseInt(args[1]));
+                        player.sendMessage(ChatColor.GREEN + "Deposited " + args[1] + " coins.");
+                    } catch (NotEnoughCoinsInAccountException e) {
+                        player.sendMessage(ChatColor.RED + "You don't have enough coins in your account to make that deposit!");
+                    }
+                }else if(args[0].equalsIgnoreCase("withdraw")) {
+                    try {
+                        bank.withdraw(ic.getIslandByPlayerUUID(player.getUniqueId()).getIslandPlayer(), Integer.parseInt(args[1]));
+                        player.sendMessage(ChatColor.GREEN + "Withdrew " + args[1] + " coins.");
+                    } catch (NotEnoughCoinsInBankException e) {
+                        player.sendMessage(ChatColor.RED + "You don't have enough coins in your bank to make that withdraw!");
+                    }
                 }
             }else if(args.length == 3) {
                 if(args[0].equalsIgnoreCase("addcoins")){

@@ -1,9 +1,14 @@
 package me.sysdm.net.Abstraction;
 
-import org.bukkit.*;
+import me.sysdm.net.Skyblock;
+import org.bukkit.Bukkit;
+import org.bukkit.TreeType;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
@@ -13,37 +18,21 @@ public class Island extends IslandCreator implements IslandInterface {
 
     String islandName;
 
+    Block block;
+
+    World world;
+
     UUID islandUUIDvar = null;
 
     IslandPlayer islandPlayer = null;
 
-    World world = null;
-
     final Random random = new Random();
 
-    Location spawnLocation = getRandomBlock(owner, 10000).getLocation();
+    Location spawnLocation;
 
-    public Block getRandomBlock(Player player, int radius) {
-
-        Block block = null;
-
-        Location playerLoc = player.getLocation();
-        double pX = playerLoc.getX();
-        double pY = playerLoc.getY();
-        double pZ = playerLoc.getZ();
-
-        for (int x = -(radius); x <= radius; x ++)
-        {
-            for (int y = -(radius); y <= radius; y ++)
-            {
-                for (int z = -(radius); z <= radius; z++)
-                {
-                    block = player.getWorld().getBlockAt((int)pX+x, (int)pY+y, (int)pZ+z);
-                    break;
-                }
-            }
-        }
-        return block;
+    public void getRandomSpawnLocation() {
+        block = this.world.getBlockAt(random.nextInt(1283), 200, random.nextInt(1283));
+        spawnLocation = this.block.getLocation();
     }
 
 
@@ -52,10 +41,12 @@ public class Island extends IslandCreator implements IslandInterface {
     }
 
     public void generateIsland() {
+        world = owner.getWorld();
+        getRandomSpawnLocation();
         Bukkit.getLogger().info("Spawning SkyBlock island for " + owner.getName());
         owner.sendMessage(ChatColor.AQUA + "Please wait while your island is being generated...");
         Bukkit.broadcastMessage(owner.getName() + " joined the SkyBlock community!");
-        Block spawner = getRandomBlock(owner, 10000);
+        Block spawner = block;
         for (int x = spawner.getX(); x <= spawner.getX() + 7; x++) {
             for (int z = spawner.getZ(); z <= spawner.getZ() + 4; z++) {
                 for (int y = spawner.getY(); y <= spawner.getY() + 15; y++) {
@@ -86,19 +77,20 @@ public class Island extends IslandCreator implements IslandInterface {
 
             Block chestBlock = getPlayerSpawn().getBlock().getRelative(4, 0, 2);
             chestBlock.setType(Material.CHEST);
-            Chest chest = (Chest) chestBlock.getState();
-            ItemStack seeds = new ItemStack(Material.WHEAT_SEEDS);
-            seeds.setAmount(3);
-            chest.getBlockInventory().addItem(
-                    new ItemStack(Material.LAVA_BUCKET),
-                    new ItemStack(Material.ICE),
-                    new ItemStack(Material.SUGAR_CANE),
-                    seeds
-            );
-
+            Bukkit.getScheduler().runTaskLater(Skyblock.getInstance(), () -> {
+                Chest chest = (Chest) chestBlock.getState();
+                ItemStack seeds = new ItemStack(Material.WHEAT_SEEDS);
+                seeds.setAmount(3);
+                System.out.println(chest);
+                chest.getInventory().addItem(
+                        new ItemStack(Material.LAVA_BUCKET),
+                        new ItemStack(Material.ICE),
+                        new ItemStack(Material.SUGAR_CANE),
+                        seeds
+                );
+            }, 1L);
             if (!this.world.generateTree(getPlayerSpawn().add(3, 0, 0), TreeType.TREE))
                 owner.sendMessage(ChatColor.RED + "Error: Could not generate tree!");
-
             getPlayerSpawn().getBlock().getRelative(0, -1, 0).setType(Material.BEDROCK);
         }
     }

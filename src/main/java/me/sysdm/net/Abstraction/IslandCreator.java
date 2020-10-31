@@ -3,8 +3,7 @@ package me.sysdm.net.Abstraction;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.*;
 
 public class IslandCreator {
 
@@ -21,29 +20,20 @@ public class IslandCreator {
         return island;
     }
 
-    
-    public void removeIsland(UUID puuid, UUID iuuid) {
-        if(islandList.containsKey(puuid) && islandList.containsValue(iuuid)) {
-            islandList.remove(puuid, iuuid);
-        }else{
-            throw new NullPointerException();
-        }
-    }
-
     public boolean hasIsland(UUID uuid) {
-        return islandList.containsKey(uuid);
+        return islandList.containsValue(uuid);
     }
 
     public boolean hasIsland(String name) {
         if(Bukkit.getPlayerExact(name) == null) {
             throw new NullPointerException();
         }
-        return islandList.containsKey(Bukkit.getPlayerExact(name).getUniqueId());
+        return islandList.containsValue(Objects.requireNonNull(Bukkit.getPlayerExact(name)).getUniqueId());
 
     }
 
     public boolean hasIsland(IslandPlayer player) {
-        return islandList.containsKey(player.getUUID());
+        return islandList.containsValue(player.getUUID());
     }
 
     public Island getIslandByIslandUUID(UUID uuid) {
@@ -54,12 +44,19 @@ public class IslandCreator {
         }
     }
     public Island getIslandByPlayerUUID(UUID uuid) {
-        if(islandList.containsKey(uuid)) {
-            UUID islandUUID = islandList.get(uuid);
-            return getIslandByIslandUUID(islandUUID);
+        if(islandList.containsValue(uuid)) {
+            return getKeyByValue(islandList, uuid);
         }else{
             throw new NullPointerException();
         }
+    }
+    public static <Island, UUID> Island getKeyByValue(Map<Island, UUID> map, UUID value) {
+        for (Map.Entry<Island, UUID> entry : map.entrySet()) {
+            if (Objects.equals(value, entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return null;
     }
 
 
