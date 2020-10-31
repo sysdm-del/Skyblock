@@ -1,6 +1,7 @@
 package me.sysdm.net.Commands;
 
 import me.sysdm.net.Abstraction.IslandCreator;
+import me.sysdm.net.Abstraction.IslandPlayer;
 import me.sysdm.net.Economy.Bank;
 import me.sysdm.net.Exceptions.NotEnoughCoinsInAccountException;
 import me.sysdm.net.Exceptions.NotEnoughCoinsInBankException;
@@ -10,6 +11,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.Date;
+import java.util.Map;
 
 public class BankCommand implements CommandExecutor {
 
@@ -37,6 +41,17 @@ public class BankCommand implements CommandExecutor {
                     }
                 }else if(args[0].equalsIgnoreCase("coinworth")) {
                     player.sendMessage(ChatColor.GREEN + "Current coin worth: $" + bank.coinWorth());
+                }else if(args[0].equalsIgnoreCase("transactions")) {
+                    player.sendMessage(ChatColor.GREEN + "---Transactions---");
+                    if(bank.transaction.containsKey(ic.getIslandByPlayerUUID(player.getUniqueId()).getIslandPlayer())) {
+                        for(Map.Entry<IslandPlayer, Date> entry : bank.transactionTime.entrySet()) {
+                            for(Map.Entry<IslandPlayer, String> otherentry : bank.transaction.entrySet()) {
+                                if(entry.getKey().equals(ic.getIslandByPlayerUUID(player.getUniqueId()).getIslandPlayer()) && otherentry.getKey().equals(ic.getIslandByPlayerUUID(player.getUniqueId()).getIslandPlayer())) {
+                                    player.sendMessage(ChatColor.GREEN + entry.getValue().toString() + otherentry.getValue());
+                                }
+                            }
+                        }
+                    }
                 }
             }else if(args.length == 2) {
                 if(args[0].equalsIgnoreCase("setcoinworth")) {
