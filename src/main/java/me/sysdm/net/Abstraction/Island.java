@@ -14,8 +14,7 @@ public class Island extends IslandCreator implements IslandInterface {
 
     String islandName = null;
 
-    Player owner = null;
-
+    Player owner = Bukkit.getPlayer(getKey(islandList, this.getIslandUUID()));
 
     int x = 0;
 
