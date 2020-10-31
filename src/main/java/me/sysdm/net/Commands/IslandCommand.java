@@ -23,14 +23,14 @@ public class IslandCommand implements CommandExecutor {
                     player.teleport(ic.getIslandByPlayerUUID(player.getUniqueId()).getPlayerSpawn());
                 } else {
                     sender.sendMessage(ChatColor.GREEN + "Creating new island...");
-                    Island island = ic.createIsland(player.getUniqueId());
+                    Island island = ic.createIsland(player);
                     island.generateIsland();
                     sender.sendMessage(ChatColor.GREEN + "Teleporting...");
                     player.teleport(island.getPlayerSpawn());
                 }
             }else if(args.length == 1) {
                 if(args[0].equalsIgnoreCase("restart")) {
-                    if(ic.islandList.containsKey(player.getUniqueId())) {
+                    if(ic.islandList.containsValue(player.getUniqueId())) {
                         ic.getIslandByPlayerUUID(player.getUniqueId()).generateIsland();
                     }
                 }

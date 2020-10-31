@@ -1,19 +1,23 @@
 package me.sysdm.net.Abstraction;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.UUID;
 
 public class IslandCreator {
 
-    public HashMap<UUID, UUID> islandList = new HashMap<>();
+    public static Player owner;
+
+    public HashMap<Island, UUID> islandList = new HashMap<>();
 
     public HashMap<UUID, Island> islandUUIDandObjList = new HashMap<>();
 
-    public Island createIsland(UUID uuid) {
+    public Island createIsland(Player player) {
+        owner = player;
         Island island = new Island();
-        islandList.put(uuid, island.getIslandUUID());
+        islandList.put(island, player.getUniqueId());
         return island;
     }
 
