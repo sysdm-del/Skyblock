@@ -1,7 +1,6 @@
 package me.sysdm.net.Abstraction;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.UUID;

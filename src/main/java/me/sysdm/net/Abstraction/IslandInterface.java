@@ -12,4 +12,6 @@ public interface IslandInterface {
 
     IslandPlayer getIslandPlayer();
 
+    Location getPlayerSpawn();
+
 }

@@ -118,12 +118,6 @@ public class Island extends IslandCreator implements IslandInterface {
         return null;
     }
 
-    public Location getPlayerSpawn() {
-        return this.spawnLocation.add(2, 4, 2);
-    }
-
-
-
 
     @Override
     public UUID getIslandUUID() {
@@ -145,5 +139,10 @@ public class Island extends IslandCreator implements IslandInterface {
             islandPlayer = new IslandPlayer();
         }
         return islandPlayer;
+    }
+
+    @Override
+    public Location getPlayerSpawn() {
+        return this.spawnLocation.add(2, 4, 2);
     }
 }

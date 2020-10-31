@@ -20,18 +20,18 @@ public class IslandCommand implements CommandExecutor {
             if(args.length == 0) {
                 if (ic.hasIsland(player.getUniqueId())) {
                     sender.sendMessage(ChatColor.GREEN + "Teleporting...");
-                    player.teleport(ic.getIslandByPlayerUUID(player.getUniqueId()).getIslandLocation());
+                    player.teleport(ic.getIslandByPlayerUUID(player.getUniqueId()).getPlayerSpawn());
                 } else {
                     sender.sendMessage(ChatColor.GREEN + "Creating new island...");
                     Island island = ic.createIsland(player.getUniqueId());
+                    island.generateIsland();
                     sender.sendMessage(ChatColor.GREEN + "Teleporting...");
-                    player.teleport(island.getIslandLocation());
+                    player.teleport(island.getPlayerSpawn());
                 }
             }else if(args.length == 1) {
-                if(args[0].equalsIgnoreCase("remove")) {
+                if(args[0].equalsIgnoreCase("restart")) {
                     if(ic.islandList.containsKey(player.getUniqueId())) {
-                        ic.removeIsland(player.getUniqueId(), ic.getIslandByPlayerUUID(player.getUniqueId()).getIslandUUID());
-                        sender.sendMessage(ChatColor.RED + "Removed island");
+                        ic.getIslandByPlayerUUID(player.getUniqueId()).generateIsland();
                     }
                 }
             }

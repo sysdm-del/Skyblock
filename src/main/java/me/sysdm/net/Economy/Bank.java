@@ -17,5 +17,11 @@ public class Bank extends Coin {
             playerCoins.put(islandPlayer, coins);
         }
     }
+    public void deposit(IslandPlayer islandPlayer, int i) {
+
+    }
+    public void withdraw(IslandPlayer islandPlayer, int i) {
+
+    }
 
 }
