@@ -1,15 +1,15 @@
-package me.sysdm.net;
+package me.sysdm.net.Commands;
 
 import me.sysdm.net.Abstraction.Island;
 import me.sysdm.net.Abstraction.IslandCreator;
-import org.bukkit.ChatColor;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 
 
-public class Commands implements CommandExecutor {
+public class IslandCommand implements CommandExecutor {
 
     final IslandCreator ic = new IslandCreator();
 

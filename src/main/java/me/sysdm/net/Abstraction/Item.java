@@ -3,6 +3,7 @@ package me.sysdm.net.Abstraction;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
+import java.util.List;
 
 public abstract class Item extends ItemStack {
 
@@ -17,6 +18,6 @@ public abstract class Item extends ItemStack {
 
     public abstract String getName();
 
-    public abstract String getLore();
+    public abstract List<String> getLore();
 
 }

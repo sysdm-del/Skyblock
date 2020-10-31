@@ -4,3 +4,8 @@ main: me.sysdm.net.Skyblock
 api-version: 1.16
 authors: [ sysdm ]
 description: A skyblock plugin
+commands:
+  island:
+    description: The main island command
+  bank:
+    description: The main bank command
