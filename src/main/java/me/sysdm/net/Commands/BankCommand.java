@@ -5,6 +5,7 @@ import me.sysdm.net.Abstraction.IslandPlayer;
 import me.sysdm.net.Economy.Bank;
 import me.sysdm.net.Economy.BankChecker;
 import me.sysdm.net.Exceptions.InvalidLevelException;
+import me.sysdm.net.Exceptions.NotEnoughBankSpaceException;
 import me.sysdm.net.Exceptions.NotEnoughCoinsInAccountException;
 import me.sysdm.net.Exceptions.NotEnoughCoinsInBankException;
 import org.bukkit.Bukkit;
@@ -89,6 +90,8 @@ public class BankCommand implements CommandExecutor {
                         player.sendMessage(ChatColor.GREEN + "Deposited " + args[1] + " coins.");
                     } catch (NotEnoughCoinsInAccountException e) {
                         player.sendMessage(ChatColor.RED + "You don't have enough coins in your account to make that deposit!");
+                    }catch (NotEnoughBankSpaceException e) {
+                        player.sendMessage(ChatColor.RED + "You don't have enough bank space to make that deposit!");
                     }
                 }else if(args[0].equalsIgnoreCase("withdraw")) {
                     if(!ic.hasIsland(player.getUniqueId())) {
@@ -125,7 +128,11 @@ public class BankCommand implements CommandExecutor {
                     }else{
                         Player target = Bukkit.getPlayerExact(args[1]);
                         if(ic.hasIsland(target.getUniqueId())) {
-                            bank.addCoin(ic.getIslandByPlayerUUID(target.getUniqueId()).getIslandPlayer(), Integer.parseInt(args[2]));
+                            try {
+                                bank.addCoin(ic.getIslandByPlayerUUID(target.getUniqueId()).getIslandPlayer(), Integer.parseInt(args[2]));
+                            } catch (NotEnoughBankSpaceException e) {
+                                sender.sendMessage(ChatColor.RED + target.getName() + ChatColor.RED + " Doesn't have enough bank space!");
+                            }
                         }else{
                             sender.sendMessage(ChatColor.RED + target.getName() + ChatColor.RED + " Doesn't have an island!");
                         }

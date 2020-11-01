@@ -2,6 +2,7 @@ package me.sysdm.net.Economy;
 
 import me.sysdm.net.Abstraction.IslandPlayer;
 import me.sysdm.net.Exceptions.InvalidLevelException;
+import me.sysdm.net.Exceptions.NotEnoughBankSpaceException;
 import me.sysdm.net.Exceptions.NotEnoughCoinsInAccountException;
 import me.sysdm.net.Exceptions.NotEnoughCoinsInBankException;
 
@@ -16,7 +17,10 @@ public class Bank extends Coin {
 
     final BankChecker bankChecker = new BankChecker();
 
-    public void addCoin(IslandPlayer islandPlayer, int i) {
+    public void addCoin(IslandPlayer islandPlayer, int i) throws NotEnoughBankSpaceException {
+        if(i > bankChecker.getBankSpace(islandPlayer)) {
+            throw new NotEnoughBankSpaceException();
+        }
         Coin[] coins = new Coin[i];
         if(playerCoins.containsKey(islandPlayer))  {
             Coin[] combi = combinateCoinArrays(coins, playerCoins.get(islandPlayer));
@@ -25,8 +29,11 @@ public class Bank extends Coin {
             playerCoins.put(islandPlayer, coins);
         }
     }
-    public void deposit(IslandPlayer islandPlayer, int i) throws NotEnoughCoinsInAccountException {
+    public void deposit(IslandPlayer islandPlayer, int i) throws NotEnoughCoinsInAccountException, NotEnoughBankSpaceException {
         if(!(i <= playerCoins.get(islandPlayer).length)) {
+            if(i > bankChecker.getBankSpace(islandPlayer)) {
+                throw new NotEnoughBankSpaceException();
+            }
             Coin[] coins = new Coin[i];
             Coin[] removed = new Coin[playerCoins.get(islandPlayer).length - i];
             bankChecker.bankSpace.put(islandPlayer, i);
