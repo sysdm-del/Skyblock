@@ -1,6 +1,7 @@
 package me.sysdm.net.Economy;
 
 import me.sysdm.net.Abstraction.IslandPlayer;
+import me.sysdm.net.Exceptions.InvalidLevelException;
 import me.sysdm.net.Exceptions.NotEnoughCoinsInAccountException;
 import me.sysdm.net.Exceptions.NotEnoughCoinsInBankException;
 
@@ -12,6 +13,8 @@ public class Bank extends Coin {
     public HashMap<IslandPlayer, Date> transactionTime = new HashMap<>();
 
     public HashMap<IslandPlayer, String> transaction = new HashMap<>();
+
+    final BankChecker bankChecker = new BankChecker();
 
     public void addCoin(IslandPlayer islandPlayer, int i) {
         Coin[] coins = new Coin[i];
@@ -26,6 +29,7 @@ public class Bank extends Coin {
         if(!(i <= playerCoins.get(islandPlayer).length)) {
             Coin[] coins = new Coin[i];
             Coin[] removed = new Coin[playerCoins.get(islandPlayer).length - i];
+            bankChecker.bankSpace.put(islandPlayer, i);
             if(bank.containsKey(islandPlayer)) {
                 Coin[] combi = combinateCoinArrays(coins, bank.get(islandPlayer));
                 playerCoins.put(islandPlayer, removed);
@@ -42,6 +46,8 @@ public class Bank extends Coin {
     }
     public void withdraw(IslandPlayer islandPlayer, int i) throws NotEnoughCoinsInBankException {
         if(!(i <= bank.get(islandPlayer).length)) {
+            int current = bankChecker.getBankSpace(islandPlayer) - i;
+            bankChecker.bankSpace.put(islandPlayer, current);
             Coin[] coins = new Coin[i];
             Coin[] removed = new Coin[bank.get(islandPlayer).length - i];
             Coin[] combi = combinateCoinArrays(coins, playerCoins.get(islandPlayer));

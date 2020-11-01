@@ -3,6 +3,8 @@ package me.sysdm.net.Commands;
 import me.sysdm.net.Abstraction.IslandCreator;
 import me.sysdm.net.Abstraction.IslandPlayer;
 import me.sysdm.net.Economy.Bank;
+import me.sysdm.net.Economy.BankChecker;
+import me.sysdm.net.Exceptions.InvalidLevelException;
 import me.sysdm.net.Exceptions.NotEnoughCoinsInAccountException;
 import me.sysdm.net.Exceptions.NotEnoughCoinsInBankException;
 import org.bukkit.Bukkit;
@@ -21,27 +23,36 @@ public class BankCommand implements CommandExecutor {
 
     final Bank bank = new Bank();
 
+    final BankChecker bankChecker = new BankChecker();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(sender instanceof Player) {
             Player player = (Player) sender;
             if(args.length == 0) {
-                if (ic.hasIsland(player.getUniqueId())) {
-                    player.sendMessage(ChatColor.GREEN + "Your balance: $" + ic.getIslandByPlayerUUID(player.getUniqueId()).getIslandPlayer().getCoins());
-                } else {
-                    player.sendMessage("You don't have a island. Create one by doing \"/island\".");
+                if(!ic.hasIsland(player.getUniqueId())) {
+                    player.sendMessage("You don't have a island! Create one by doing \"/island\".");
+                    return true;
                 }
+                player.sendMessage(ChatColor.GREEN + "Your balance: $" + ic.getIslandByPlayerUUID(player.getUniqueId()).getIslandPlayer().getCoins());
             }else if(args.length == 1) {
                 if (args[0].equalsIgnoreCase("balance")) {
-                    if (ic.hasIsland(player.getUniqueId())) {
-                        player.sendMessage(ChatColor.GREEN + "Your balance: $" + ic.getIslandByPlayerUUID(player.getUniqueId()).getIslandPlayer().getCoins());
-                    } else {
-                        player.sendMessage("You don't have a island. Create one by doing \"/island\".");
+                    if(!ic.hasIsland(player.getUniqueId())) {
+                        player.sendMessage("You don't have a island! Create one by doing \"/island\".");
+                        return true;
                     }
+                    player.sendMessage(ChatColor.GREEN + "Your balance: $" + ic.getIslandByPlayerUUID(player.getUniqueId()).getIslandPlayer().getCoins());
                 }else if(args[0].equalsIgnoreCase("coinworth")) {
+                    if(!ic.hasIsland(player.getUniqueId())) {
+                        player.sendMessage("You don't have a island! Create one by doing \"/island\".");
+                        return true;
+                    }
                     player.sendMessage(ChatColor.GREEN + "Current coin worth: $" + bank.coinWorth());
                 }else if(args[0].equalsIgnoreCase("transactions")) {
+                    if(!ic.hasIsland(player.getUniqueId())) {
+                        player.sendMessage("You don't have a island! Create one by doing \"/island\".");
+                        return true;
+                    }
                     player.sendMessage(ChatColor.GREEN + "---Transactions---");
                     if(bank.transaction.containsKey(ic.getIslandByPlayerUUID(player.getUniqueId()).getIslandPlayer())) {
                         for(Map.Entry<IslandPlayer, Date> entry : bank.transactionTime.entrySet()) {
@@ -51,12 +62,28 @@ public class BankCommand implements CommandExecutor {
                                 }
                             }
                         }
+                    }else{
+                        player.sendMessage(ChatColor.RED + "No transactions found");
                     }
+                }else if(args[0].equalsIgnoreCase("banklevel"))  {
+                    if(!ic.hasIsland(player.getUniqueId())) {
+                        player.sendMessage("You don't have a island! Create one by doing \"/island\".");
+                        return true;
+                    }
+                    player.sendMessage(bankChecker.getBankLevelString(ic.getIslandByPlayerUUID(player.getUniqueId()).getIslandPlayer()));
                 }
             }else if(args.length == 2) {
                 if(args[0].equalsIgnoreCase("setcoinworth")) {
+                    if(!ic.hasIsland(player.getUniqueId())) {
+                        player.sendMessage("You don't have a island! Create one by doing \"/island\".");
+                        return true;
+                    }
                     bank.setWorth(Integer.parseInt(args[1]));
                 }else if(args[0].equalsIgnoreCase("deposit")) {
+                    if(!ic.hasIsland(player.getUniqueId())) {
+                        player.sendMessage("You don't have a island! Create one by doing \"/island\".");
+                        return true;
+                    }
                     try {
                         bank.deposit(ic.getIslandByPlayerUUID(player.getUniqueId()).getIslandPlayer(), Integer.parseInt(args[1]));
                         player.sendMessage(ChatColor.GREEN + "Deposited " + args[1] + " coins.");
@@ -64,15 +91,35 @@ public class BankCommand implements CommandExecutor {
                         player.sendMessage(ChatColor.RED + "You don't have enough coins in your account to make that deposit!");
                     }
                 }else if(args[0].equalsIgnoreCase("withdraw")) {
+                    if(!ic.hasIsland(player.getUniqueId())) {
+                        player.sendMessage("You don't have a island! Create one by doing \"/island\".");
+                        return true;
+                    }
                     try {
                         bank.withdraw(ic.getIslandByPlayerUUID(player.getUniqueId()).getIslandPlayer(), Integer.parseInt(args[1]));
                         player.sendMessage(ChatColor.GREEN + "Withdrew " + args[1] + " coins.");
                     } catch (NotEnoughCoinsInBankException e) {
                         player.sendMessage(ChatColor.RED + "You don't have enough coins in your bank to make that withdraw!");
                     }
+                }else if(args[0].equalsIgnoreCase("upgrade")) {
+                    if(!ic.hasIsland(player.getUniqueId())) {
+                        player.sendMessage("You don't have a island! Create one by doing \"/island\".");
+                        return true;
+                    }
+                    try{
+                        bankChecker.upgradeBank(ic.getIslandByPlayerUUID(player.getUniqueId()).getIslandPlayer(), Integer.parseInt(args[1]));
+                    } catch (InvalidLevelException e) {
+                        player.sendMessage(ChatColor.RED + "Please enter a level between 2 - 5.");
+                    } catch (NotEnoughCoinsInAccountException e) {
+                        player.sendMessage(ChatColor.RED + "You don't have enough coins in your bank to make that upgrade!");
+                    }
                 }
             }else if(args.length == 3) {
                 if(args[0].equalsIgnoreCase("addcoins")){
+                    if(!ic.hasIsland(player.getUniqueId())) {
+                        player.sendMessage("You don't have a island! Create one by doing \"/island\".");
+                        return true;
+                    }
                     if(Bukkit.getPlayerExact(args[1]) == null) {
                         sender.sendMessage(ChatColor.RED + "Invalid player.");
                     }else{

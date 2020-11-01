@@ -39,16 +39,14 @@ public class IslandCreator {
     public Island getIslandByIslandUUID(UUID uuid) {
         if(islandUUIDandObjList.containsKey(uuid)) {
             return islandUUIDandObjList.get(uuid);
-        }else{
-            throw new NullPointerException();
         }
+        return null;
     }
-    public Island getIslandByPlayerUUID(UUID uuid) {
+    public Island getIslandByPlayerUUID(UUID uuid)  {
         if(islandList.containsValue(uuid)) {
             return getKeyByValue(islandList, uuid);
-        }else{
-            throw new NullPointerException();
         }
+        return null;
     }
     public static <Island, UUID> Island getKeyByValue(Map<Island, UUID> map, UUID value) {
         for (Map.Entry<Island, UUID> entry : map.entrySet()) {
