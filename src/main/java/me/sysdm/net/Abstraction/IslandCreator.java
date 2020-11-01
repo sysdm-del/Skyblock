@@ -11,7 +11,7 @@ public class IslandCreator {
 
     public HashMap<Island, UUID> islandList = new HashMap<>();
 
-    public HashMap<UUID, Island> islandUUIDandObjList = new HashMap<>();
+    public HashMap<UUID, Island> islandUUIDAndObjList = new HashMap<>();
 
     public Island createIsland(Player player) {
         owner = player;
@@ -37,8 +37,8 @@ public class IslandCreator {
     }
 
     public Island getIslandByIslandUUID(UUID uuid) {
-        if(islandUUIDandObjList.containsKey(uuid)) {
-            return islandUUIDandObjList.get(uuid);
+        if(islandUUIDAndObjList.containsKey(uuid)) {
+            return islandUUIDAndObjList.get(uuid);
         }else{
             throw new NullPointerException();
         }

@@ -9,9 +9,6 @@ import java.util.stream.Stream;
 
 public class Bank extends Coin {
 
-    long mills = System.currentTimeMillis();
-    final Date date = new Date(mills);
-
     public HashMap<IslandPlayer, Date> transactionTime = new HashMap<>();
 
     public HashMap<IslandPlayer, String> transaction = new HashMap<>();
@@ -26,14 +23,14 @@ public class Bank extends Coin {
         }
     }
     public void deposit(IslandPlayer islandPlayer, int i) throws NotEnoughCoinsInAccountException {
-        if(!(i > playerCoins.get(islandPlayer).length)) {
+        if(!(i <= playerCoins.get(islandPlayer).length)) {
             Coin[] coins = new Coin[i];
             Coin[] removed = new Coin[playerCoins.get(islandPlayer).length - i];
             if(bank.containsKey(islandPlayer)) {
                 Coin[] combi = combinateCoinArrays(coins, bank.get(islandPlayer));
                 playerCoins.put(islandPlayer, removed);
                 bank.put(islandPlayer, combi);
-                transactionTime.put(islandPlayer, date);
+                transactionTime.put(islandPlayer, getTime());
                 transaction.put(islandPlayer, "Deposit " + i + " coins");
             }else{
                 bank.put(islandPlayer, coins);
@@ -44,13 +41,13 @@ public class Bank extends Coin {
         }
     }
     public void withdraw(IslandPlayer islandPlayer, int i) throws NotEnoughCoinsInBankException {
-        if(!(i > bank.get(islandPlayer).length)) {
+        if(!(i <= bank.get(islandPlayer).length)) {
             Coin[] coins = new Coin[i];
             Coin[] removed = new Coin[bank.get(islandPlayer).length - i];
             Coin[] combi = combinateCoinArrays(coins, playerCoins.get(islandPlayer));
             playerCoins.put(islandPlayer, combi);
             bank.put(islandPlayer, removed);
-            transactionTime.put(islandPlayer, date);
+            transactionTime.put(islandPlayer, getTime());
             transaction.put(islandPlayer, "Withdraw " + i + " coins");
         }else{
             throw new NotEnoughCoinsInBankException();
@@ -62,7 +59,8 @@ public class Bank extends Coin {
     }
 
     public Date getTime() {
-        return date;
+        long mills = System.currentTimeMillis();
+        return new Date(mills);
     }
 
 }
