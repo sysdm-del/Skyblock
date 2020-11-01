@@ -5,7 +5,7 @@ import me.sysdm.net.Abstraction.IslandPlayer;
 
 import java.util.HashMap;
 
-public class Coin extends Island implements CoinInterface {
+public class Coin implements CoinInterface {
 
     public HashMap<IslandPlayer, Coin[]> playerCoins = new HashMap<>();
 

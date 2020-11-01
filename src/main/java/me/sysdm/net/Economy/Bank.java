@@ -5,19 +5,22 @@ import me.sysdm.net.Exceptions.InvalidLevelException;
 import me.sysdm.net.Exceptions.NotEnoughBankSpaceException;
 import me.sysdm.net.Exceptions.NotEnoughCoinsInAccountException;
 import me.sysdm.net.Exceptions.NotEnoughCoinsInBankException;
+import me.sysdm.net.Skyblock;
 
 import java.util.*;
 import java.util.stream.Stream;
 
 public class Bank extends Coin {
 
+    BankChecker bankChecker = Skyblock.getInstance().getBankChecker();
+
     public HashMap<IslandPlayer, Date> transactionTime = new HashMap<>();
 
     public HashMap<IslandPlayer, String> transaction = new HashMap<>();
 
-    final BankChecker bankChecker = new BankChecker();
 
     public void addCoin(IslandPlayer islandPlayer, int i) throws NotEnoughBankSpaceException {
+
         if(i > bankChecker.getBankSpace(islandPlayer)) {
             throw new NotEnoughBankSpaceException();
         }

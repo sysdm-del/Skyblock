@@ -7,13 +7,11 @@ import org.bukkit.ChatColor;
 
 import java.util.HashMap;
 
-public class BankChecker {
+public class BankChecker extends Bank{
 
     public HashMap<IslandPlayer, Integer> bankLevel = new HashMap<>();
 
     public HashMap<IslandPlayer, Integer> bankSpace = new HashMap<>();
-
-    final Bank bank = new Bank();
 
     Coin[] gold = new Coin[20000];
     Coin[] deluxe = new Coin[30000];
@@ -68,28 +66,28 @@ public class BankChecker {
     public void upgradeBank(IslandPlayer islandPlayer, int level) throws InvalidLevelException, NotEnoughCoinsInAccountException {
         switch (level) {
             case 2:
-                if (this.gold.length <= bank.playerCoins.get(islandPlayer).length) {
+                if (this.gold.length <= playerCoins.get(islandPlayer).length) {
                     bankLevel.put(islandPlayer, level);
                 } else {
                     throw new NotEnoughCoinsInAccountException();
                 }
                 break;
             case 3:
-                if (this.deluxe.length <= bank.playerCoins.get(islandPlayer).length) {
+                if (this.deluxe.length <= playerCoins.get(islandPlayer).length) {
                     bankLevel.put(islandPlayer, level);
                 } else {
                     throw new NotEnoughCoinsInAccountException();
                 }
                 break;
             case 4:
-                if (this.superdeluxe.length <= bank.playerCoins.get(islandPlayer).length) {
+                if (this.superdeluxe.length <= playerCoins.get(islandPlayer).length) {
                     bankLevel.put(islandPlayer, level);
                 } else {
                     throw new NotEnoughCoinsInAccountException();
                 }
                 break;
             case 5:
-                if (this.premier.length <= bank.playerCoins.get(islandPlayer).length) {
+                if (this.premier.length <= playerCoins.get(islandPlayer).length) {
                     bankLevel.put(islandPlayer, level);
                 } else {
                     throw new NotEnoughCoinsInAccountException();
