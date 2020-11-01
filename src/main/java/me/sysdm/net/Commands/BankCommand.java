@@ -3,7 +3,6 @@ package me.sysdm.net.Commands;
 import me.sysdm.net.Abstraction.IslandCreator;
 import me.sysdm.net.Abstraction.IslandPlayer;
 import me.sysdm.net.Economy.Bank;
-import me.sysdm.net.Economy.BankChecker;
 import me.sysdm.net.Exceptions.InvalidLevelException;
 import me.sysdm.net.Exceptions.NotEnoughBankSpaceException;
 import me.sysdm.net.Exceptions.NotEnoughCoinsInAccountException;
@@ -23,8 +22,6 @@ public class BankCommand implements CommandExecutor {
     final IslandCreator ic = new IslandCreator();
 
     final Bank bank = new Bank();
-
-    final BankChecker bankChecker = new BankChecker();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -71,7 +68,7 @@ public class BankCommand implements CommandExecutor {
                         player.sendMessage("You don't have a island! Create one by doing \"/island\".");
                         return true;
                     }
-                    player.sendMessage(bankChecker.getBankLevelString(ic.getIslandByPlayerUUID(player.getUniqueId()).getIslandPlayer()));
+                    player.sendMessage(bank.getBankLevelString(ic.getIslandByPlayerUUID(player.getUniqueId()).getIslandPlayer()));
                 }
             }else if(args.length == 2) {
                 if(args[0].equalsIgnoreCase("setcoinworth")) {
@@ -110,7 +107,7 @@ public class BankCommand implements CommandExecutor {
                         return true;
                     }
                     try{
-                        bankChecker.upgradeBank(ic.getIslandByPlayerUUID(player.getUniqueId()).getIslandPlayer(), Integer.parseInt(args[1]));
+                        bank.upgradeBank(ic.getIslandByPlayerUUID(player.getUniqueId()).getIslandPlayer(), Integer.parseInt(args[1]));
                     } catch (InvalidLevelException e) {
                         player.sendMessage(ChatColor.RED + "Please enter a level between 2 - 5.");
                     } catch (NotEnoughCoinsInAccountException e) {

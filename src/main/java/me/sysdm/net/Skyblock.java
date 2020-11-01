@@ -2,8 +2,6 @@ package me.sysdm.net;
 
 import me.sysdm.net.Commands.BankCommand;
 import me.sysdm.net.Commands.IslandCommand;
-import me.sysdm.net.Economy.Bank;
-import me.sysdm.net.Economy.BankChecker;
 import me.sysdm.net.Events.DeathEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -33,10 +31,5 @@ public final class Skyblock extends JavaPlugin {
         return instance;
     }
 
-    private final BankChecker bankChecker = new BankChecker();
-
-    public BankChecker getBankChecker(){
-        return bankChecker;
-    }
 
 }
