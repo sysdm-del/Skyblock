@@ -6,7 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
-public class DeathEvent implements Listener{
+public class DeathEvent implements Listener {
 
     final Coin coin = new Coin();
 

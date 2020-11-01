@@ -26,11 +26,10 @@ public class Island extends IslandCreator implements IslandInterface {
 
     IslandPlayer islandPlayer = null;
 
-    final Random random = new Random();
-
     Location spawnLocation;
 
     public void getRandomSpawnLocation() {
+        Random random = new Random();
         block = this.world.getBlockAt(random.nextInt(1283), 200, random.nextInt(1283));
         spawnLocation = this.block.getLocation();
     }
