@@ -1,35 +1,40 @@
 package me.sysdm.net.Economy;
 
+import me.sysdm.net.Abstraction.IslandCreator;
 import me.sysdm.net.Abstraction.IslandPlayer;
 import me.sysdm.net.Exceptions.InvalidLevelException;
 import me.sysdm.net.Exceptions.NotEnoughBankSpaceException;
 import me.sysdm.net.Exceptions.NotEnoughCoinsInAccountException;
 import me.sysdm.net.Exceptions.NotEnoughCoinsInBankException;
-import me.sysdm.net.Skyblock;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 
 import java.util.*;
 import java.util.stream.Stream;
 
-public class Bank extends Coin {
+public class Bank {
 
-    public HashMap<IslandPlayer, Integer> bankLevel = new HashMap<>();
+    private final IslandCreator ic = new IslandCreator();
 
-    public HashMap<IslandPlayer, Integer> bankSpace = new HashMap<>();
+    private final HashMap<IslandPlayer, Coin[]> bank = new HashMap<>();
 
-    public HashMap<IslandPlayer, Date> transactionTime = new HashMap<>();
+    private final HashMap<IslandPlayer, Integer> bankLevel = new HashMap<>();
 
-    public HashMap<IslandPlayer, String> transaction = new HashMap<>();
+    private final HashMap<IslandPlayer, Integer> bankSpace = new HashMap<>();
+    private final HashMap<IslandPlayer, Date> transactionTime = new HashMap<>();
+    private final HashMap<IslandPlayer, String> transaction = new HashMap<>();
 
-    Coin[] gold = new Coin[20000];
-    Coin[] deluxe = new Coin[30000];
-    Coin[] superdeluxe = new Coin[40000];
-    Coin[] premier = new Coin[50000];
-    Coin[] starterSpace = new Coin[10000];
-    Coin[] goldSpace = new Coin[100000];
-    Coin[] deluxeSpace = new Coin[500000];
-    Coin[] superdeluxeSpace = new Coin[1000000];
-    Coin[] premierSpace = new Coin[5000000];
+    private final HashMap<IslandPlayer, Coin[]> playerCoins = new HashMap<>();
+
+    private final Coin[] gold = new Coin[20000];
+    private final Coin[] deluxe = new Coin[30000];
+    private final Coin[] superdeluxe = new Coin[40000];
+    private final Coin[] premier = new Coin[50000];
+    private final Coin[] starterSpace = new Coin[10000];
+    private final Coin[] goldSpace = new Coin[100000];
+    private final Coin[] deluxeSpace = new Coin[500000];
+    private final Coin[] superdeluxeSpace = new Coin[1000000];
+    private final Coin[] premierSpace = new Coin[5000000];
 
     public int getBankLevel(IslandPlayer islandPlayer) {
         return bankLevel.getOrDefault(islandPlayer, 1);
@@ -163,6 +168,35 @@ public class Bank extends Coin {
     public Date getTime() {
         long mills = System.currentTimeMillis();
         return new Date(mills);
+    }
+
+    public boolean isInTransaction(IslandPlayer islandPlayer) {
+        return transaction.containsKey(islandPlayer);
+    }
+
+    public String[] getTransactions(Player player) {
+        List<String> list = new ArrayList<>();
+        for(Map.Entry<IslandPlayer, Date> entry : transactionTime.entrySet()) {
+            for(Map.Entry<IslandPlayer, String> otherentry : transaction.entrySet()) {
+                if(entry.getKey().equals(ic.getIslandByPlayerUUID(player.getUniqueId()).getIslandPlayer()) && otherentry.getKey().equals(ic.getIslandByPlayerUUID(player.getUniqueId()).getIslandPlayer())) {
+                    list.add(ChatColor.GREEN + entry.getValue().toString() + otherentry.getValue());
+                }
+            }
+        }
+        String[] array = new String[list.size()];
+        return list.toArray(array);
+    }
+
+    public boolean isInBank(IslandPlayer islandPlayer) {
+        return bank.containsKey(islandPlayer);
+    }
+
+    public boolean isInCoins(IslandPlayer islandPlayer) {
+        return playerCoins.containsKey(islandPlayer);
+    }
+
+    public int getBankCoinsInt(IslandPlayer islandPlayer) {
+        return bank.get(islandPlayer).length;
     }
 
 }

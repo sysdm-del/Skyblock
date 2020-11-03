@@ -20,22 +20,6 @@ public class IslandCreator {
         return island;
     }
 
-    public boolean hasIsland(UUID uuid) {
-        return islandList.containsValue(uuid);
-    }
-
-    public boolean hasIsland(String name) {
-        if(Bukkit.getPlayerExact(name) == null) {
-            throw new NullPointerException();
-        }
-        return islandList.containsValue(Objects.requireNonNull(Bukkit.getPlayerExact(name)).getUniqueId());
-
-    }
-
-    public boolean hasIsland(IslandPlayer player) {
-        return islandList.containsValue(player.getUUID());
-    }
-
     public Island getIslandByIslandUUID(UUID uuid) {
         if(islandUUIDandObjList.containsKey(uuid)) {
             return islandUUIDandObjList.get(uuid);
@@ -48,13 +32,17 @@ public class IslandCreator {
         }
         return null;
     }
-    public static <Island, UUID> Island getKeyByValue(Map<Island, UUID> map, UUID value) {
+    public <Island, UUID> Island getKeyByValue(Map<Island, UUID> map, UUID value) {
         for (Map.Entry<Island, UUID> entry : map.entrySet()) {
             if (Objects.equals(value, entry.getValue())) {
                 return entry.getKey();
             }
         }
         return null;
+    }
+
+    public boolean hasIsland(UUID uuid) {
+        return islandList.containsValue(uuid);
     }
 
 

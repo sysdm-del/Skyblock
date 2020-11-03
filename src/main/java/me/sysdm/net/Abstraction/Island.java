@@ -16,17 +16,17 @@ import java.util.*;
 
 public class Island extends IslandCreator implements IslandInterface {
 
-    String islandName;
+    private String islandName;
 
-    Block block;
+    private Block block;
 
-    World world;
+    private World world;
 
-    UUID islandUUIDvar = null;
+    private UUID islandUUIDvar = null;
 
-    IslandPlayer islandPlayer = null;
+    private IslandPlayer islandPlayer = null;
 
-    Location spawnLocation;
+    private Location spawnLocation;
 
     public void getRandomSpawnLocation() {
         Random random = new Random();

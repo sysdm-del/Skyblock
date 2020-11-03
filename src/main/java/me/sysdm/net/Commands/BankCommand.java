@@ -3,6 +3,7 @@ package me.sysdm.net.Commands;
 import me.sysdm.net.Abstraction.IslandCreator;
 import me.sysdm.net.Abstraction.IslandPlayer;
 import me.sysdm.net.Economy.Bank;
+import me.sysdm.net.Economy.Coin;
 import me.sysdm.net.Exceptions.InvalidLevelException;
 import me.sysdm.net.Exceptions.NotEnoughBankSpaceException;
 import me.sysdm.net.Exceptions.NotEnoughCoinsInAccountException;
@@ -23,11 +24,14 @@ public class BankCommand implements CommandExecutor {
 
     final Bank bank = new Bank();
 
+    final Coin coin = new Coin();
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(sender instanceof Player) {
             Player player = (Player) sender;
             if(args.length == 0) {
+                System.out.println(ic.islandList);
                 if(!ic.hasIsland(player.getUniqueId())) {
                     player.sendMessage("You don't have a island! Create one by doing \"/island\".");
                     return true;
@@ -45,21 +49,15 @@ public class BankCommand implements CommandExecutor {
                         player.sendMessage("You don't have a island! Create one by doing \"/island\".");
                         return true;
                     }
-                    player.sendMessage(ChatColor.GREEN + "Current coin worth: $" + bank.coinWorth());
+                    player.sendMessage(ChatColor.GREEN + "Current coin worth: $" + coin.coinWorth());
                 }else if(args[0].equalsIgnoreCase("transactions")) {
                     if(!ic.hasIsland(player.getUniqueId())) {
                         player.sendMessage("You don't have a island! Create one by doing \"/island\".");
                         return true;
                     }
                     player.sendMessage(ChatColor.GREEN + "---Transactions---");
-                    if(bank.transaction.containsKey(ic.getIslandByPlayerUUID(player.getUniqueId()).getIslandPlayer())) {
-                        for(Map.Entry<IslandPlayer, Date> entry : bank.transactionTime.entrySet()) {
-                            for(Map.Entry<IslandPlayer, String> otherentry : bank.transaction.entrySet()) {
-                                if(entry.getKey().equals(ic.getIslandByPlayerUUID(player.getUniqueId()).getIslandPlayer()) && otherentry.getKey().equals(ic.getIslandByPlayerUUID(player.getUniqueId()).getIslandPlayer())) {
-                                    player.sendMessage(ChatColor.GREEN + entry.getValue().toString() + otherentry.getValue());
-                                }
-                            }
-                        }
+                    if(bank.isInTransaction(ic.getIslandByPlayerUUID(player.getUniqueId()).getIslandPlayer())) {
+                        player.sendMessage(bank.getTransactions(player));
                     }else{
                         player.sendMessage(ChatColor.RED + "No transactions found");
                     }
@@ -76,7 +74,7 @@ public class BankCommand implements CommandExecutor {
                         player.sendMessage("You don't have a island! Create one by doing \"/island\".");
                         return true;
                     }
-                    bank.setWorth(Integer.parseInt(args[1]));
+                    coin.setWorth(Integer.parseInt(args[1]));
                 }else if(args[0].equalsIgnoreCase("deposit")) {
                     if(!ic.hasIsland(player.getUniqueId())) {
                         player.sendMessage("You don't have a island! Create one by doing \"/island\".");

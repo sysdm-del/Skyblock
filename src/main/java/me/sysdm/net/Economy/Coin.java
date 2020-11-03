@@ -5,11 +5,7 @@ import me.sysdm.net.Abstraction.IslandPlayer;
 
 import java.util.HashMap;
 
-public class Coin implements CoinInterface {
-
-    public HashMap<IslandPlayer, Coin[]> playerCoins = new HashMap<>();
-
-    public HashMap<IslandPlayer, Coin[]> bank = new HashMap<>();
+public class Coin extends Bank implements CoinInterface {
 
     int worth = 1;
 
@@ -18,14 +14,14 @@ public class Coin implements CoinInterface {
     }
 
     public int getCoins(IslandPlayer islandPlayer) {
-        if(!playerCoins.containsKey(islandPlayer)) {
-            if(!bank.containsKey(islandPlayer)) {
+        if(!isInCoins(islandPlayer)) {
+            if(!isInBank(islandPlayer)) {
                 return 0;
             }else{
-                return bank.get(islandPlayer).length;
+                return getBankCoinsInt(islandPlayer);
             }
         }else{
-            return playerCoins.get(islandPlayer).length + bank.get(islandPlayer).length;
+            return getBankCoinsInt(islandPlayer) + getCoins(islandPlayer);
         }
     }
 

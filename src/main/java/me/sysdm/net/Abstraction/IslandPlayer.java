@@ -1,5 +1,6 @@
 package me.sysdm.net.Abstraction;
 
+import me.sysdm.net.Economy.Bank;
 import me.sysdm.net.Economy.Coin;
 
 import java.util.UUID;
@@ -7,6 +8,8 @@ import java.util.UUID;
 public class IslandPlayer extends Island {
 
     final UUID uuid = UUID.randomUUID();
+
+    final Bank bank = new Bank();
 
     final Coin coin = new Coin();
 
@@ -17,8 +20,8 @@ public class IslandPlayer extends Island {
     }
 
     public int getCoins() {
-        if(coin.playerCoins.containsKey(this)) {
-            this.coins = coin.playerCoins.get(this).length;
+        if(bank.isInCoins(this)) {
+            this.coins = coin.getCoins(this);
         }
         return this.coins;
     }
