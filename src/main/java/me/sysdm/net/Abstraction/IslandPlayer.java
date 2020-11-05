@@ -5,7 +5,7 @@ import me.sysdm.net.Economy.Coin;
 
 import java.util.UUID;
 
-public class IslandPlayer extends Island {
+public class IslandPlayer extends IslandManager {
 
     final UUID uuid = UUID.randomUUID();
 

@@ -1,6 +1,8 @@
 package me.sysdm.net.Events;
 
 import me.sysdm.net.Abstraction.IslandCreator;
+import me.sysdm.net.Abstraction.IslandManager;
+import me.sysdm.net.Economy.Bank;
 import me.sysdm.net.Economy.Coin;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
@@ -9,16 +11,16 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 
 public class DeathEvent implements Listener {
 
-    final Coin coin = new Coin();
+    final Bank bank = new Bank();
 
-    final IslandCreator ic = new IslandCreator();
+    final IslandManager im = new IslandManager();
 
     @EventHandler
     void onPlayerDeath(PlayerDeathEvent e) {
-        if(ic.hasIsland(e.getEntity().getUniqueId())) {
-            if(coin.playerCoins.containsKey(ic.getIslandByPlayerUUID(e.getEntity().getUniqueId()).getIslandPlayer())) {
-                coin.playerCoins.remove(ic.getIslandByPlayerUUID(e.getEntity().getUniqueId()).getIslandPlayer());
-                e.getEntity().sendMessage(ChatColor.RED + "You lost " + coin.playerCoins.get(ic.getIslandByPlayerUUID(e.getEntity().getUniqueId()).getIslandPlayer()).length + ChatColor.RED + " coins!");
+        if(im.hasIsland(e.getEntity().getUniqueId())) {
+            if(bank.isInCoins(im.getIslandByPlayerUUID(e.getEntity().getUniqueId()).getIslandPlayer())) {
+                bank.removeFromCoins(im.getIslandByPlayerUUID(e.getEntity().getUniqueId()).getIslandPlayer());
+                e.getEntity().sendMessage(ChatColor.RED + "You lost " + bank.getValueFromCoins(im.getIslandByPlayerUUID(e.getEntity().getUniqueId()).getIslandPlayer()).length + ChatColor.RED + " coins!");
             }
         }
     }

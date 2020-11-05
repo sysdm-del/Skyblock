@@ -9,6 +9,7 @@ import org.bukkit.World;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
@@ -27,6 +28,8 @@ public class Island extends IslandCreator implements IslandInterface {
     private IslandPlayer islandPlayer = null;
 
     private Location spawnLocation;
+
+    private final Player owner = getOwner();
 
     public void getRandomSpawnLocation() {
         Random random = new Random();
@@ -100,7 +103,7 @@ public class Island extends IslandCreator implements IslandInterface {
     public UUID getIslandUUID() {
         if(islandUUIDvar == null) {
             islandUUIDvar = UUID.randomUUID();
-            islandUUIDandObjList.put(islandUUIDvar, this);
+            islandManager.addToIslandUUIDAndObjList(islandUUIDvar, this);
         }
         return islandUUIDvar;
     }

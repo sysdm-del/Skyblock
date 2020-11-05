@@ -2,6 +2,7 @@ package me.sysdm.net.Commands;
 
 import me.sysdm.net.Abstraction.Island;
 import me.sysdm.net.Abstraction.IslandCreator;
+import me.sysdm.net.Abstraction.IslandManager;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,6 +12,8 @@ import org.bukkit.entity.*;
 
 public class IslandCommand implements CommandExecutor {
 
+    final IslandManager im = new IslandManager();
+
     final IslandCreator ic = new IslandCreator();
 
     @Override
@@ -18,9 +21,9 @@ public class IslandCommand implements CommandExecutor {
         if(sender instanceof Player) {
             Player player = (Player) sender;
             if(args.length == 0) {
-                if (ic.hasIsland(player.getUniqueId())) {
+                if (im.hasIsland(player.getUniqueId())) {
                     sender.sendMessage(ChatColor.GREEN + "Teleporting...");
-                    player.teleport(ic.getIslandByPlayerUUID(player.getUniqueId()).getPlayerSpawn());
+                    player.teleport(im.getIslandByPlayerUUID(player.getUniqueId()).getPlayerSpawn());
                 } else {
                     sender.sendMessage(ChatColor.GREEN + "Creating new island...");
                     Island island = ic.createIsland(player);
@@ -30,8 +33,8 @@ public class IslandCommand implements CommandExecutor {
                 }
             }else if(args.length == 1) {
                 if(args[0].equalsIgnoreCase("restart")) {
-                    if(ic.islandList.containsValue(player.getUniqueId())) {
-                        ic.getIslandByPlayerUUID(player.getUniqueId()).generateIsland();
+                    if(im.containsValueIslandList(player.getUniqueId())) {
+                        im.getIslandByPlayerUUID(player.getUniqueId()).generateIsland();
                     }
                 }
             }

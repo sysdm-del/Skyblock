@@ -1,6 +1,7 @@
 package me.sysdm.net.Economy;
 
 import me.sysdm.net.Abstraction.IslandCreator;
+import me.sysdm.net.Abstraction.IslandManager;
 import me.sysdm.net.Abstraction.IslandPlayer;
 import me.sysdm.net.Exceptions.InvalidLevelException;
 import me.sysdm.net.Exceptions.NotEnoughBankSpaceException;
@@ -14,7 +15,7 @@ import java.util.stream.Stream;
 
 public class Bank {
 
-    private final IslandCreator ic = new IslandCreator();
+    private final IslandManager im = new IslandManager();
 
     private final HashMap<IslandPlayer, Coin[]> bank = new HashMap<>();
 
@@ -170,6 +171,14 @@ public class Bank {
         return new Date(mills);
     }
 
+    public void removeFromCoins(IslandPlayer islandPlayer) {
+        playerCoins.remove(islandPlayer);
+    }
+
+    public Coin[] getValueFromCoins(IslandPlayer islandPlayer) {
+        return playerCoins.get(islandPlayer);
+    }
+
     public boolean isInTransaction(IslandPlayer islandPlayer) {
         return transaction.containsKey(islandPlayer);
     }
@@ -178,7 +187,7 @@ public class Bank {
         List<String> list = new ArrayList<>();
         for(Map.Entry<IslandPlayer, Date> entry : transactionTime.entrySet()) {
             for(Map.Entry<IslandPlayer, String> otherentry : transaction.entrySet()) {
-                if(entry.getKey().equals(ic.getIslandByPlayerUUID(player.getUniqueId()).getIslandPlayer()) && otherentry.getKey().equals(ic.getIslandByPlayerUUID(player.getUniqueId()).getIslandPlayer())) {
+                if(entry.getKey().equals(im.getIslandByPlayerUUID(player.getUniqueId()).getIslandPlayer()) && otherentry.getKey().equals(im.getIslandByPlayerUUID(player.getUniqueId()).getIslandPlayer())) {
                     list.add(ChatColor.GREEN + entry.getValue().toString() + otherentry.getValue());
                 }
             }
