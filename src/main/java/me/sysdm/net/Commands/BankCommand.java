@@ -57,7 +57,9 @@ public class BankCommand implements CommandExecutor {
                     }
                     player.sendMessage(ChatColor.GREEN + "---Transactions---");
                     if(bank.isInTransaction(im.getIslandByPlayerUUID(player.getUniqueId()).getIslandPlayer())) {
-                        player.sendMessage(bank.getTransactions(player));
+                        for(String s : bank.getTransactions(player)) {
+                            player.sendMessage(s);
+                        }
                     }else{
                         player.sendMessage(ChatColor.RED + "No transactions found");
                     }
