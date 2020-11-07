@@ -17,7 +17,6 @@ public final class Skyblock extends JavaPlugin {
         getCommand("bank").setExecutor(new BankCommand());
         getServer().getPluginManager().registerEvents(new DeathEvent(), this);
         getLogger().info("Loaded!");
-
     }
 
     @Override

@@ -39,7 +39,7 @@ public class Island extends IslandCreator implements IslandInterface {
 
 
     public void setIslandName(String name) {
-        islandName = name;
+        this.islandName = name;
     }
 
     public void generateIsland() {

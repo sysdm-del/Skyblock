@@ -27,7 +27,7 @@ public class IslandManager {
         return islandList.containsValue(uuid);
     }
 
-    public void addPlayerAndUUID(Island island, UUID uuid) {
+    public void addPlayerAndUUIDToIslandList(Island island, UUID uuid) {
         islandList.put(island, uuid);
     }
 

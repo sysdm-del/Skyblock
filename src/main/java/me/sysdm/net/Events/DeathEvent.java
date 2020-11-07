@@ -1,9 +1,7 @@
 package me.sysdm.net.Events;
 
-import me.sysdm.net.Abstraction.IslandCreator;
 import me.sysdm.net.Abstraction.IslandManager;
 import me.sysdm.net.Economy.Bank;
-import me.sysdm.net.Economy.Coin;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

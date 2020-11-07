@@ -1,9 +1,6 @@
 package me.sysdm.net.Economy;
 
-import me.sysdm.net.Abstraction.Island;
 import me.sysdm.net.Abstraction.IslandPlayer;
-
-import java.util.HashMap;
 
 public class Coin extends Bank implements CoinInterface {
 
