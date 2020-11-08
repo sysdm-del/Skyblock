@@ -1,8 +1,8 @@
 package me.sysdm.net.Commands;
 
-import me.sysdm.net.Abstraction.Island;
-import me.sysdm.net.Abstraction.IslandCreator;
-import me.sysdm.net.Abstraction.IslandManager;
+import me.sysdm.net.Islands.Island;
+import me.sysdm.net.Islands.IslandCreator;
+import me.sysdm.net.Islands.IslandManager;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

@@ -1,4 +1,6 @@
-package me.sysdm.net.Abstraction;
+package me.sysdm.net.Islands;
+
+import me.sysdm.net.Islands.Island;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package me.sysdm.net.Abstraction;
+package me.sysdm.net.Islands;
 
 import org.bukkit.entity.Player;
 

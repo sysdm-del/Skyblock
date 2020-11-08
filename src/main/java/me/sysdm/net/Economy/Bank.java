@@ -1,7 +1,7 @@
 package me.sysdm.net.Economy;
 
-import me.sysdm.net.Abstraction.IslandManager;
-import me.sysdm.net.Abstraction.IslandPlayer;
+import me.sysdm.net.Islands.IslandManager;
+import me.sysdm.net.Islands.IslandPlayer;
 import me.sysdm.net.Exceptions.InvalidLevelException;
 import me.sysdm.net.Exceptions.NotEnoughBankSpaceException;
 import me.sysdm.net.Exceptions.NotEnoughCoinsInAccountException;

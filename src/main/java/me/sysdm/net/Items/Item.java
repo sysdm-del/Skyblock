@@ -1,4 +1,4 @@
-package me.sysdm.net.Abstraction;
+package me.sysdm.net.Items;
 
 import org.bukkit.inventory.ItemStack;
 

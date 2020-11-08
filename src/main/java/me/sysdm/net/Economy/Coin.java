@@ -1,6 +1,6 @@
 package me.sysdm.net.Economy;
 
-import me.sysdm.net.Abstraction.IslandPlayer;
+import me.sysdm.net.Islands.IslandPlayer;
 
 public class Coin extends Bank implements CoinInterface {
 

@@ -1,4 +1,4 @@
-package me.sysdm.net.Abstraction;
+package me.sysdm.net.Islands;
 
 import org.bukkit.Location;
 
@@ -13,5 +13,7 @@ public interface IslandInterface {
     IslandPlayer getIslandPlayer();
 
     Location getPlayerSpawn();
+
+    String getIslandName();
 
 }

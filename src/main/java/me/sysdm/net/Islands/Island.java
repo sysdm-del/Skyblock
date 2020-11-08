@@ -1,4 +1,4 @@
-package me.sysdm.net.Abstraction;
+package me.sysdm.net.Islands;
 
 import me.sysdm.net.Skyblock;
 import org.bukkit.Bukkit;
@@ -124,5 +124,10 @@ public class Island extends IslandCreator implements IslandInterface {
     @Override
     public Location getPlayerSpawn() {
         return this.spawnLocation.add(2, 4, 2);
+    }
+
+    @Override
+    public String getIslandName() {
+        return this.islandName;
     }
 }

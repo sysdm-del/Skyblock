@@ -1,7 +1,8 @@
-package me.sysdm.net.Abstraction;
+package me.sysdm.net.Islands;
 
 import me.sysdm.net.Economy.Bank;
 import me.sysdm.net.Economy.Coin;
+import me.sysdm.net.Islands.IslandManager;
 
 import java.util.UUID;
 
