@@ -1,5 +1,6 @@
 package me.sysdm.net.Economy;
 
+import me.sysdm.net.CustomCollections.SkyblockMap;
 import me.sysdm.net.Islands.IslandManager;
 import me.sysdm.net.Islands.IslandPlayer;
 import me.sysdm.net.Exceptions.InvalidLevelException;
@@ -16,15 +17,15 @@ public class Bank {
 
     private final IslandManager im = new IslandManager();
 
-    private final HashMap<IslandPlayer, Coin[]> bank = new HashMap<>();
+    private final SkyblockMap<IslandPlayer, Coin[]> bank = new SkyblockMap<>();
 
-    private final HashMap<IslandPlayer, Integer> bankLevel = new HashMap<>();
+    private final SkyblockMap<IslandPlayer, Integer> bankLevel = new SkyblockMap<>();
 
-    private final HashMap<IslandPlayer, Integer> bankSpace = new HashMap<>();
-    private final HashMap<IslandPlayer, Date> transactionTime = new HashMap<>();
-    private final HashMap<IslandPlayer, String> transaction = new HashMap<>();
+    private final SkyblockMap<IslandPlayer, Integer> bankSpace = new SkyblockMap<>();
+    private final SkyblockMap<IslandPlayer, Date> transactionTime = new SkyblockMap<>();
+    private final SkyblockMap<IslandPlayer, String> transaction = new SkyblockMap<>();
 
-    private final HashMap<IslandPlayer, Coin[]> playerCoins = new HashMap<>();
+    private final SkyblockMap<IslandPlayer, Coin[]> playerCoins = new SkyblockMap<>();
 
     private final Coin[] gold = new Coin[20000];
     private final Coin[] deluxe = new Coin[30000];

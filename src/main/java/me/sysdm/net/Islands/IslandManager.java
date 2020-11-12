@@ -1,5 +1,6 @@
 package me.sysdm.net.Islands;
 
+import me.sysdm.net.CustomCollections.SkyblockMap;
 import me.sysdm.net.Islands.Island;
 
 import java.util.HashMap;
@@ -9,9 +10,9 @@ import java.util.UUID;
 
 public class IslandManager {
 
-    private HashMap<Island, UUID> islandList = new HashMap<>();
+    private final SkyblockMap<Island, UUID> islandList = new SkyblockMap<>();
 
-    private HashMap<UUID, Island> islandUUIDandObjList = new HashMap<>();
+    private final SkyblockMap<UUID, Island> islandUUIDandObjList = new SkyblockMap<>();
 
     public Island getIslandByIslandUUID(UUID uuid) {
         if(islandUUIDandObjList.containsKey(uuid)) {
